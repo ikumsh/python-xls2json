@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FORMS</title>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/generate_form.js') }}"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<style type="text/css">
+		body {
+			background: lightblue;
+		}
+	</style>
+</head>
+<body>
+	<div id="json_survey" style="display: none;">
+		{{ json_survey }}
+	</div>
+
+	<div>
+		<form id="xlsform_survey">
+			<script type="text/javascript">generateForm()</script>
+			<input type="submit" name="SUBMIT">
+		</form>
+	</div>
+</body>
+</html>

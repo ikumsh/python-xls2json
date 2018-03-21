@@ -1,0 +1,286 @@
+[
+    {
+        "hint": "Hints provide additional information about a question that is displayed less prominently.",
+        "label": "This is a basic fill in the blank question.",
+        "name": "some_text",
+        "type": "text"
+    },
+    {
+        "audio": "audio_test.wav",
+        "hint": "In order to select a different translation press your phone's menu button and you should see a \"Change Language\" button. In order to add mediafiles put them in your phone's odk/forms/[formname]-media folder.",
+        "hint::chinese": "ni hao",
+        "image": "img_test.jpg",
+        "image::english": "img_test_2.jpg",
+        "label": "This question shows how to use translations and media types.",
+        "label::chinese": "\u60a8\u597d",
+        "media::audio::chinese": "chinese_audio.wav",
+        "media::video": "test.mov",
+        "name": "text_image_audio_video_test",
+        "type": "note"
+    },
+    {
+        "default": 123.0,
+        "label": "Enter a integer:",
+        "name": "a_integer",
+        "type": "integer"
+    },
+    {
+        "constraint": ". <= ${a_integer}",
+        "constraint_message": "You can set the toast that appears when a constraint is violated.",
+        "hint": "This question has a constraint so that the decimal must be less that the integer.",
+        "label": "Enter a decimal:",
+        "name": "a_decimal",
+        "type": "decimal"
+    },
+    {
+        "calculation": "${a_integer}+${a_decimal}",
+        "name": "calculate",
+        "type": "calculate"
+    },
+    {
+        "label": "The sum of the integer and decimal: ${calculate}",
+        "name": "calculate_test_output",
+        "type": "note"
+    },
+    {
+        "hint": "In the type column you must include the name of a choices list that sets the available options. Choices lists are specified on the choices sheet.",
+        "label": "This is a select_one type question.",
+        "name": "select_example",
+        "type": "select_one yes_no"
+    },
+    {
+        "hint": "You have to enter something to continue.",
+        "label": "Required field",
+        "name": "required_text",
+        "required": "yes",
+        "type": "text"
+    },
+    {
+        "label": "Acknowledge prompts can be used to indicate some action was completed. For example, a real prompt might read, \"Inform the subject how the data collected on them will be used.\"",
+        "name": "acknowledge_test",
+        "type": "acknowledge"
+    },
+    {
+        "label": "Skip the next question?",
+        "name": "skip_example",
+        "type": "select_one yes_no"
+    },
+    {
+        "hint": "You can also have skip logic for groups.",
+        "label": "This question will be skipped if its \"relevant\" column is false.",
+        "name": "skipable_question",
+        "relevant": "selected(${skip_example}, 'no')",
+        "type": "text"
+    },
+    {
+        "label": "A repeat",
+        "name": "repeat_test",
+        "type": "begin repeat"
+    },
+    {
+        "hint": "You can also repeat groups of questions.",
+        "label": "This is a repeating question.",
+        "name": "repeating_question",
+        "type": "text"
+    },
+    {
+        "name": "repeat_test",
+        "type": "end repeat"
+    },
+    {
+        "appearance": "field-list",
+        "label": "A group",
+        "name": "group_test",
+        "type": "begin group"
+    },
+    {
+        "label": "Using a group with a field-list appearance you can make multiple promps appear on the same screen.",
+        "name": "field_list_note",
+        "type": "note"
+    },
+    {
+        "appearance": "minimal",
+        "constraint": "not(selected(., 'yes') and selected (., 'no'))",
+        "constraint_message": "You can't select yes and no.",
+        "label": "Select multiple 1",
+        "name": "select_multiple_1",
+        "required": "no",
+        "type": "select_multiple yes_no"
+    },
+    {
+        "label": "select multiple 2",
+        "name": "select_multiple_2",
+        "type": "select_multiple a_b"
+    },
+    {
+        "name": "group_test",
+        "type": "end group"
+    },
+    {
+        "appearance": "table-list",
+        "label": "table-list group",
+        "name": "table_list_example",
+        "type": "begin group"
+    },
+    {
+        "hint": "A hint",
+        "label": "Table list question 1",
+        "name": "table_list_question_1",
+        "type": "select_one yes_no"
+    },
+    {
+        "hint": "A hint",
+        "label": "Table list question 2",
+        "name": "table_list_question_2",
+        "type": "select_one yes_no"
+    },
+    {
+        "name": "table_list_example",
+        "type": "end group"
+    },
+    {
+        "label": "The following questions demo different appearance attributes for select type questions",
+        "name": "select_appearance_note",
+        "type": "note"
+    },
+    {
+        "appearance": "field-list",
+        "label": "labeled select group test",
+        "name": "labeled_select_group",
+        "type": "begin group"
+    },
+    {
+        "appearance": "label",
+        "label": "label-test",
+        "name": "label_test",
+        "type": "select_one yes_no"
+    },
+    {
+        "appearance": "list-nolabel",
+        "label": "list-nolabel-test",
+        "name": "list-nolabel_test",
+        "type": "select_one yes_no"
+    },
+    {
+        "type": "end group"
+    },
+    {
+        "appearance": "compact",
+        "hint": "Requires images",
+        "label": "Compact appearance",
+        "name": "compact_test",
+        "type": "select_one a_b"
+    },
+    {
+        "label": "The following prompts demo some of the other types of information you can collect with ODK Collect.",
+        "name": "data_types_note",
+        "type": "note"
+    },
+    {
+        "label": "Enter a date:",
+        "name": "date_test",
+        "type": "date"
+    },
+    {
+        "label": "Enter a time:",
+        "name": "time_test",
+        "type": "time"
+    },
+    {
+        "label": "Enter a date and a time:",
+        "name": "datetime_test",
+        "type": "datetime"
+    },
+    {
+        "label": "Record your location:",
+        "name": "geopoint_test",
+        "type": "geopoint"
+    },
+    {
+        "label": "Scan a barcode:",
+        "name": "barcode_test",
+        "type": "barcode"
+    },
+    {
+        "label": "Take a picture:",
+        "name": "image_test",
+        "type": "image"
+    },
+    {
+        "label": "Record audio:",
+        "name": "audio_test",
+        "type": "audio"
+    },
+    {
+        "label": "Capture video:",
+        "name": "video_test",
+        "type": "video"
+    },
+    {
+        "label": "The following prompts show some of the metadata that you can gather during a survey.",
+        "name": "metadata_note",
+        "type": "note"
+    },
+    {
+        "label": "-",
+        "name": "start",
+        "type": "start"
+    },
+    {
+        "label": "Survey start time: ${start}",
+        "name": "start_test_output",
+        "type": "note"
+    },
+    {
+        "label": "-",
+        "name": "end",
+        "type": "end"
+    },
+    {
+        "label": "Survey end time: ${end}",
+        "name": "end_test_output",
+        "type": "note"
+    },
+    {
+        "label": "-",
+        "name": "today",
+        "type": "today"
+    },
+    {
+        "label": "Today: ${today}",
+        "name": "today_test_output",
+        "type": "note"
+    },
+    {
+        "label": "-",
+        "name": "deviceid",
+        "type": "deviceid"
+    },
+    {
+        "label": "deviceid: ${deviceid}",
+        "name": "deviceid_test_output",
+        "type": "note"
+    },
+    {
+        "label": "-",
+        "name": "simserial",
+        "type": "simserial"
+    },
+    {
+        "hint": "Depending on your device and carrier this might not be recordable.",
+        "label": "simserial: ${simserial}",
+        "name": "simserial_test_output",
+        "type": "note"
+    },
+    {
+        "label": "-",
+        "name": "phonenumber",
+        "type": "phonenumber"
+    },
+    {
+        "hint": "Depending on your device and carrier this might not be recordable.",
+        "label": "phonenumber: ${phonenumber}",
+        "name": "phonenumber_test_output",
+        "type": "note"
+    }
+]
