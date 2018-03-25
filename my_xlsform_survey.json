@@ -73,56 +73,70 @@
         "type": "text"
     },
     {
-        "fields": [
-            {
-                "hint": "You can also repeat groups of questions.",
-                "label": "This is a repeating question.",
-                "name": "repeating_question",
-                "type": "text"
-            },
-            {
-                "fields": [
-                    {
-                        "label": "Using a group with a field-list appearance you can make multiple promps appear on the same screen.",
-                        "name": "field_list_note",
-                        "type": "note"
-                    },
-                    {
-                        "appearance": "minimal",
-                        "constraint": "not(selected(., 'yes') and selected (., 'no'))",
-                        "constraint_message": "You can't select yes and no.",
-                        "label": "Select multiple 1",
-                        "name": "select_multiple_1",
-                        "required": "no",
-                        "type": "select_multiple yes_no"
-                    },
-                    {
-                        "label": "select multiple 2",
-                        "name": "select_multiple_2",
-                        "type": "select_multiple a_b"
-                    }
-                ],
-                "type": "group"
-            }
-        ],
-        "type": "repeat"
+        "label": "A repeat",
+        "name": "repeat_test",
+        "type": "begin repeat"
     },
     {
-        "fields": [
-            {
-                "hint": "A hint",
-                "label": "Table list question 1",
-                "name": "table_list_question_1",
-                "type": "select_one yes_no"
-            },
-            {
-                "hint": "A hint",
-                "label": "Table list question 2",
-                "name": "table_list_question_2",
-                "type": "select_one yes_no"
-            }
-        ],
-        "type": "group"
+        "hint": "You can also repeat groups of questions.",
+        "label": "This is a repeating question.",
+        "name": "repeating_question",
+        "type": "text"
+    },
+    {
+        "name": "repeat_test",
+        "type": "end repeat"
+    },
+    {
+        "appearance": "field-list",
+        "label": "A group",
+        "name": "group_test",
+        "type": "begin group"
+    },
+    {
+        "label": "Using a group with a field-list appearance you can make multiple promps appear on the same screen.",
+        "name": "field_list_note",
+        "type": "note"
+    },
+    {
+        "appearance": "minimal",
+        "constraint": "not(selected(., 'yes') and selected (., 'no'))",
+        "constraint_message": "You can't select yes and no.",
+        "label": "Select multiple 1",
+        "name": "select_multiple_1",
+        "required": "no",
+        "type": "select_multiple yes_no"
+    },
+    {
+        "label": "select multiple 2",
+        "name": "select_multiple_2",
+        "type": "select_multiple a_b"
+    },
+    {
+        "name": "group_test",
+        "type": "end group"
+    },
+    {
+        "appearance": "table-list",
+        "label": "table-list group",
+        "name": "table_list_example",
+        "type": "begin group"
+    },
+    {
+        "hint": "A hint",
+        "label": "Table list question 1",
+        "name": "table_list_question_1",
+        "type": "select_one yes_no"
+    },
+    {
+        "hint": "A hint",
+        "label": "Table list question 2",
+        "name": "table_list_question_2",
+        "type": "select_one yes_no"
+    },
+    {
+        "name": "table_list_example",
+        "type": "end group"
     },
     {
         "label": "The following questions demo different appearance attributes for select type questions",
@@ -130,21 +144,25 @@
         "type": "note"
     },
     {
-        "fields": [
-            {
-                "appearance": "label",
-                "label": "label-test",
-                "name": "label_test",
-                "type": "select_one yes_no"
-            },
-            {
-                "appearance": "list-nolabel",
-                "label": "list-nolabel-test",
-                "name": "list-nolabel_test",
-                "type": "select_one yes_no"
-            }
-        ],
-        "type": "group"
+        "appearance": "field-list",
+        "label": "labeled select group test",
+        "name": "labeled_select_group",
+        "type": "begin group"
+    },
+    {
+        "appearance": "label",
+        "label": "label-test",
+        "name": "label_test",
+        "type": "select_one yes_no"
+    },
+    {
+        "appearance": "list-nolabel",
+        "label": "list-nolabel-test",
+        "name": "list-nolabel_test",
+        "type": "select_one yes_no"
+    },
+    {
+        "type": "end group"
     },
     {
         "appearance": "compact",

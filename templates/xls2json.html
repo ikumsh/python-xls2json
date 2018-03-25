@@ -3,6 +3,8 @@
 <head>
 	<title>FORMS</title>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/generate_form.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 	<style type="text/css">
@@ -16,11 +18,21 @@
 		{{ json_survey }}
 	</div>
 
+	<div id="json_choices" style="display: none;">
+		{{ json_choices }}
+	</div>
+
 	<div>
 		<form id="xlsform_survey">
 			<script type="text/javascript">generateForm()</script>
 			<input type="submit" name="SUBMIT">
 		</form>
 	</div>
+
+	<script>
+		$(document).ready(function(){
+		    $('[data-toggle="tooltip"]').tooltip();   
+		});
+	</script>
 </body>
 </html>

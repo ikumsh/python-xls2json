@@ -1,0 +1,96 @@
+The XLSForm Subset
+==================
+
+
+* Sheet 1: survey
+        Columns:
+                type
+                name
+                label (w/ translation)
+                hint (w/ translation)
+                parameters
+                constraint
+                constraint_message (w/ translation)
+                relevant
+                required
+                required_message (w/ translation)
+                repeat_count (including dynamic repeat count , i.e. integer expression)
+                choice_filter
+                default
+                read_only
+                appearance (see Appearance below)
+
+
+* Sheet 2: choices
+
+                list name
+                name
+                label (w/ translation)
+
+
+
+* Sheet 3: settings:
+        form_title
+        form_id
+        default_language
+        version
+        instance_name
+
+
+
+* Types:
+
+        Question type                   Answer input
+
+DONE        integer                         Integer (i.e., whole number) input.
+DONE        decimal                         Decimal input.
+        range                           Range input.
+DONE        text                            Free text response.
+
+FIX        select_one [options]            Multiple choice question; only one answer can be selected.
+
+FIX        select_multiple [options]       Multiple choice question; multiple answers can be selected.
+
+FIX dislaying images        note                            Display a note on the screen, takes no input. Note how they 
+                                        can embed calculations into notes
+        geopoint                        Collect a single GPS coordinate.
+DONE        date                            Date input.
+DONE        time                            Time input.
+DONE        dateTime                        Accepts a date and a time input.
+
+FIX: CAMERA NEEDED        image                           Take a picture or upload an image file.
+
+NEXT        calculate                       Perform a calculation; see the Calculation section below
+        grouping                        begin_group and end_group,  nesting groups, skipping groups using relevant
+        repeats                         begin_repeat and end_repeat, this is a repeat group,
+
+
+
+* System Types:
+
+        Metadata type   Meaning
+        start           Start date and time of the survey.
+        end             End date and time of the survey.
+        today           Day of the survey.
+        deviceid        IMEI (International Mobile Equipment Identity)
+        subscriberid    IMSI (International Mobile Subscriber Identity)
+        simserial       SIM serial number.
+        phonenumber     Phone number (if available).
+        username        Username configured (if available).
+        email           Email address configured (if available).
+
+
+* Multilingual Support, for label, hint, constraint_message, and required_message, e.g. "label::English (en)”
+
+* Cascading selects: choice_filter
+
+* Appearance:
+
+        Appearance attribute    Question type   Description
+        multiline               text    Best if used with web clients, makes the text box multiple lines long.
+        month-year              date    Select a month and year only for the date.
+        year                    date    Select only a year for the date.
+
+
+
+

@@ -1,0 +1,26 @@
+{
+    "a_b": [
+        {
+            "image": "a.jpg",
+            "label": "a",
+            "name": "a"
+        },
+        {
+            "image": "b.jpg",
+            "label": "b",
+            "name": "b"
+        }
+    ],
+    "yes_no": [
+        {
+            "label": "Yes",
+            "label::chinese": "\u662f",
+            "name": "yes"
+        },
+        {
+            "label": "No",
+            "label::chinese": "\u6ca1\u6709",
+            "name": "no"
+        }
+    ]
+}
