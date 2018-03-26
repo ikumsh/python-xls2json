@@ -1,9 +1,10 @@
 function generateForm() {
-	var json_survey = document.getElementById("json_survey").innerHTML;
-	var json_choices = document.getElementById("json_choices").innerHTML;
+	var jsonXLSForm = JSON.parse(document.getElementById("json_xlsform").innerHTML);
 
-	var jsonSurvey = JSON.parse(json_survey);
-	var jsonChoices = JSON.parse(json_choices);
+	var jsonSurvey = jsonXLSForm["survey"]
+	var jsonChoices = jsonXLSForm["choices"]
+	var jsonSettings = jsonXLSForm["settings"]
+
 
 	// THIS IS WHERE THE FORM HTML IS STORED
 	text_html = '';

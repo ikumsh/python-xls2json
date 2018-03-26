@@ -1,60 +1,28 @@
 from __future__ import print_function
 import xlrd, json
 
-def unicode_to_utf8(unicode_row):
-	utf8_row = []
-	for element in unicode_row:
-		if ( type(element) == unicode ):
-			utf8_row.append(element.encode("utf-8"))
-		else:
-			utf8_row.append(element)
-	return utf8_row
+#sys stdout
+
+#xls file name and json file name as command line options
 
 def generate_json_from(filename):
 	xlsform = xlrd.open_workbook(filename)
 
+	json_form = {}
+
 	survey = xlsform.sheet_by_name("survey");
-	choices = xlsform.sheet_by_name("choices");
-	settings = xlsform.sheet_by_name("settings");
+	json_form["survey"] = generate_json_survey(survey, filename)
 
-	choices_attributes = unicode_to_utf8(choices.row_values(0))
-	settings_attributes = unicode_to_utf8(settings.row_values(0))
+	if "choices" in xlsform.sheet_names():
+		choices = xlsform.sheet_by_name("choices");
+		json_form["choices"] = generate_json_choices(choices, filename)
 
-	json_survey = generate_json_survey(survey, filename)
-	# json_choices = generate_json_choices(choices)
-	# json_settings = generate_json_settings(settings)
+	if "settings" in xlsform.sheet_names():
+		settings = xlsform.sheet_by_name("settings");
+		json_form["settings"] = generate_json_settings(settings, filename)
 
-	# json_form = {}
-
-	# json_form["survey"] = json_survey
-	# json_form["choices"] = json_choices
-	# json_form["settings"] = json_settings
-
-	# json_form = json.dumps(xlsform_survey, sort_keys=True,
-	# 						indent=4, separators=(',', ': '))
-	# return json_form
-
-
-
-#make one json file instead of 3
-
-# complete settings conversion
-
-#sys stdout
-
-
-
-#xls file name and json file name as command line options
-
-#################
-
-def generate_json_survey(survey, filename):
-	survey_attributes = unicode_to_utf8(survey.row_values(0))
-	json_survey = []
-	make_json_rows(json_survey, survey, survey_attributes, 1)
-
-	xlsform_json = json.dumps(json_survey, sort_keys=True,
-								indent=4, separators=(',', ': '))
+	json_form = json.dumps(json_form, sort_keys=True,
+							indent=4, separators=(',', ': '))
 
 	#GENERATE JSON FILENAME
 	split_filename = filename.split('.')
@@ -64,7 +32,25 @@ def generate_json_survey(survey, filename):
 
 	#WRITE JSON FILE
 	with open(json_filename, 'w') as json_file:
-		json_file.write(xlsform_json)
+		json_file.write(json_form)
+
+def unicode_to_utf8(unicode_row):
+	utf8_row = []
+	for element in unicode_row:
+		if ( type(element) == unicode ):
+			utf8_row.append(element.encode("utf-8"))
+		else:
+			utf8_row.append(element)
+	return utf8_row
+
+#################
+
+def generate_json_survey(survey, filename):
+	survey_attributes = unicode_to_utf8(survey.row_values(0))
+	json_survey = []
+	make_json_rows(json_survey, survey, survey_attributes, 1)
+
+	return json_survey
 
 def make_json_rows(result, survey, survey_attributes, current_index):
 	while current_index < survey.nrows:
@@ -100,117 +86,53 @@ def make_survey_row(attributes, xls_row):
 
 #################
 
-def generate_json_choices(filename,):
-
+def get_question_types(choices):
 	question_types = []
+	for row_number in range(choices.nrows):
+		row = unicode_to_utf8(choices.row_values(row_number))
+		for col_number in range(choices.ncols):
+			if row[col_number] == "list_name":
+				question_types = unicode_to_utf8(list(set(choices.col_values(col_number))))
+				del question_types[question_types.index("list_name")]
+	return question_types
 
-	for x in range(1,choices.nrows):
-		question_type = choices.row_values(x)[0]
-		if type(question_type) == unicode:
-			if question_type.encode("utf-8") not in question_types:
-				question_types.append(question_type.encode("utf-8"))
-		else:
-			if question_type not in question_types:
-				question_types.append(question_type)
+def make_choices_row(attributes, xls_row, question_type):
+	row = {}
+	for attr_index in range(1,len(attributes)):
+		attribute = attributes[attr_index]
+		if xls_row[attr_index] != '':
+			row[attribute] = xls_row[attr_index]
+	return row
 
-	xlsform_choices = {}
+def generate_json_choices(choices, filename):
+	choices_attributes = unicode_to_utf8(choices.row_values(0))
 
-	for qtype in question_types:
-		xlsform_choices[qtype] = []
+	question_types = get_question_types(choices)
 
-	for x in range(1,choices.nrows):
-		list_name = choices.row_values(x)[0]
-		row = {}
-		row_utf8 = []
-		row_unicode = choices.row_values(x)
+	json_choices = {}
+	for q_type in question_types:
+		json_choices[q_type] = []
+		for row_number in range(1,choices.nrows):
+			xls_row = unicode_to_utf8(choices.row_values(row_number))
+			if xls_row[0] == q_type:
+				json_row = make_choices_row(choices_attributes, xls_row, q_type)
+				json_choices[q_type].append(json_row)
 
-		for value in row_unicode:
-			if type(value) == unicode:
-				row_utf8.append(value.encode("utf-8"))
-			else:
-				row_utf8.append(value)
+	return json_choices
 
-		for question_attr in range(1,len(choice_attributes)):
-			attr = choice_attributes[question_attr]
-			if not (row_utf8[question_attr] == ''):
-				row[attr] = row_utf8[question_attr]
+#################
 
-		xlsform_choices[list_name].append(row)
+def generate_json_settings(settings, filename):
+	settings_attributes = unicode_to_utf8(settings.row_values(0))
 
-	json_choices = json.dumps(xlsform_choices, sort_keys=True,
-								indent=4, separators=(',', ': '))
-
-	#GENERATE JSON FILENAME
-	split_filename = filename.split('.')
-	del split_filename[-1]
-	split_filename[-1] += "_choices"
-	split_filename.append('json')
-	json_filename = ".".join(split_filename)
-
-	#WRITE JSON FILE
-	with open(json_filename, 'w') as json_file:
-		json_file.write(json_choices)
+	json_settings = {}
+	for attr_index in range(len(settings_attributes)):
+		attr = settings_attributes[attr_index]
+		values = unicode_to_utf8(settings.row_values(1))
+		json_settings[attr] = values[attr_index]
 
 
-	return json_choices #RETURN NOT NECESSARY. ONLY SO WE CAN PRINT
-
-# def generate_json_settings(filename):
-# 	xlsform = xlrd.open_workbook(filename)
-
-# 	survey = xlsform.sheet_by_index(0)
-# 	choices = xlsform.sheet_by_index(1)
-# 	settings = xlsform.sheet_by_index(2)
-
-# 	form_attributes = []
-# 	attributes = survey.row_values(0)
-
-# 	for attr in attributes:
-# 		if type(attr) == unicode:
-# 			form_attributes.append(attr.encode("utf-8"))
-# 		else:
-# 			form_attributes.append(attr)
-
-# 	xlsform_survey = []
-
-# 	for x in range(1,survey.nrows):
-# 		row = {}
-# 		row_utf8 = []
-# 		row_unicode = survey.row_values(x)
-
-# 		for value in row_unicode:
-# 			if type(value) == unicode:
-# 				row_utf8.append(value.encode("utf-8"))
-# 			else:
-# 				row_utf8.append(value)
-
-# 		for form_attr in range(len(form_attributes)):
-# 			attr = form_attributes[form_attr]
-# 			if not (row_utf8[form_attr] == ''):
-# 				row[attr] = row_utf8[form_attr]
-
-# 		xlsform_survey.append(row)
-
-# 	xlsform_json = json.dumps(xlsform_survey, sort_keys=True,
-# 								indent=4, separators=(',', ': '))
-
-# 	#GENERATE JSON FILENAME
-# 	split_filename = filename.split('.')
-# 	del split_filename[-1]
-# 	split_filename.append('json')
-# 	json_filename = ".".join(split_filename)
-
-# 	#WRITE JSON FILE
-# 	with open(json_filename, 'w') as json_file:
-# 		json_file.write(xlsform_json)
-
-
-# 	return xlsform_json #RETURN NOT NECESSARY. ONLY SO WE CAN PRINT
-
-# generate_json_survey("my_xlsform.xls")
-# generate_json_choices("my_xlsform.xls")
-
-
-
+	return json_settings
 
 
 generate_json_from("my_xlsform.xls")
