@@ -76,8 +76,9 @@
         {
             "hint": "In the type column you must include the name of a choices list that sets the available options. Choices lists are specified on the choices sheet.",
             "label": "This is a select_one type question.",
+            "list_name": "yes_no",
             "name": "select_example",
-            "type": "select_one yes_no"
+            "type": "select_one"
         },
         {
             "hint": "You have to enter something to continue.",
@@ -93,8 +94,9 @@
         },
         {
             "label": "Skip the next question?",
+            "list_name": "yes_no",
             "name": "skip_example",
-            "type": "select_one yes_no"
+            "type": "select_one"
         },
         {
             "hint": "You can also have skip logic for groups.",
@@ -123,14 +125,16 @@
                             "constraint": "not(selected(., 'yes') and selected (., 'no'))",
                             "constraint_message": "You can't select yes and no.",
                             "label": "Select multiple 1",
+                            "list_name": "yes_no",
                             "name": "select_multiple_1",
                             "required": "no",
-                            "type": "select_multiple yes_no"
+                            "type": "select_multiple"
                         },
                         {
                             "label": "select multiple 2",
+                            "list_name": "a_b",
                             "name": "select_multiple_2",
-                            "type": "select_multiple a_b"
+                            "type": "select_multiple"
                         }
                     ],
                     "type": "group"
@@ -143,14 +147,16 @@
                 {
                     "hint": "A hint",
                     "label": "Table list question 1",
+                    "list_name": "yes_no",
                     "name": "table_list_question_1",
-                    "type": "select_one yes_no"
+                    "type": "select_one"
                 },
                 {
                     "hint": "A hint",
                     "label": "Table list question 2",
+                    "list_name": "yes_no",
                     "name": "table_list_question_2",
-                    "type": "select_one yes_no"
+                    "type": "select_one"
                 }
             ],
             "type": "group"
@@ -165,14 +171,16 @@
                 {
                     "appearance": "label",
                     "label": "label-test",
+                    "list_name": "yes_no",
                     "name": "label_test",
-                    "type": "select_one yes_no"
+                    "type": "select_one"
                 },
                 {
                     "appearance": "list-nolabel",
                     "label": "list-nolabel-test",
+                    "list_name": "yes_no",
                     "name": "list-nolabel_test",
-                    "type": "select_one yes_no"
+                    "type": "select_one"
                 }
             ],
             "type": "group"
@@ -181,8 +189,9 @@
             "appearance": "compact",
             "hint": "Requires images",
             "label": "Compact appearance",
+            "list_name": "a_b",
             "name": "compact_test",
-            "type": "select_one a_b"
+            "type": "select_one"
         },
         {
             "label": "The following prompts demo some of the other types of information you can collect with ODK Collect.",
@@ -242,58 +251,6 @@
         {
             "label": "Survey start time: ${start}",
             "name": "start_test_output",
-            "type": "note"
-        },
-        {
-            "label": "-",
-            "name": "end",
-            "type": "end"
-        },
-        {
-            "label": "Survey end time: ${end}",
-            "name": "end_test_output",
-            "type": "note"
-        },
-        {
-            "label": "-",
-            "name": "today",
-            "type": "today"
-        },
-        {
-            "label": "Today: ${today}",
-            "name": "today_test_output",
-            "type": "note"
-        },
-        {
-            "label": "-",
-            "name": "deviceid",
-            "type": "deviceid"
-        },
-        {
-            "label": "deviceid: ${deviceid}",
-            "name": "deviceid_test_output",
-            "type": "note"
-        },
-        {
-            "label": "-",
-            "name": "simserial",
-            "type": "simserial"
-        },
-        {
-            "hint": "Depending on your device and carrier this might not be recordable.",
-            "label": "simserial: ${simserial}",
-            "name": "simserial_test_output",
-            "type": "note"
-        },
-        {
-            "label": "-",
-            "name": "phonenumber",
-            "type": "phonenumber"
-        },
-        {
-            "hint": "Depending on your device and carrier this might not be recordable.",
-            "label": "phonenumber: ${phonenumber}",
-            "name": "phonenumber_test_output",
             "type": "note"
         }
     ]

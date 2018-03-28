@@ -1,48 +1,69 @@
-function generateForm() {
+function generateForm(current_index) {
 	var jsonXLSForm = JSON.parse(document.getElementById("json_xlsform").innerHTML);
 
 	var jsonSurvey = jsonXLSForm["survey"]
 	var jsonChoices = jsonXLSForm["choices"]
 	var jsonSettings = jsonXLSForm["settings"]
 
-
-	// THIS IS WHERE THE FORM HTML IS STORED
 	text_html = '';
 
-	// THE FOLLOWING LOOP GENERATES THE FORMS
-	for (var i=0; i < jsonSurvey.length; i++) {
-		var current_question = jsonSurvey[i];
-		var element_id = i+1;
-		question_type = current_question["type"].split(" ")[0].trim()
-			if ( question_type === "text") {
-				text_html += createTextField(element_id, current_question, element_id)
-			} else if (question_type === "integer") {
-				text_html += createIntegerField(element_id, current_question)
-			} else if (question_type === "decimal") {
-				text_html += createDecimalField(element_id, current_question)
-			} else if (question_type === "date") {
-				text_html += createDateField(element_id, current_question)
-			} else if (question_type === "time") {
-				text_html += createTimeField(element_id, current_question)
-			} else if (question_type === "datetime") {
-				text_html += createDateTimeField(element_id, current_question)
-			} else if (question_type === "image") {
-				text_html += createImageField(element_id, current_question)
-			}else if (question_type === "note") {
-				text_html += createNoteField(element_id, current_question)
-			} else if ( question_type === "select_one") {
-				text_html += createSelectOneField(element_id, current_question, jsonChoices)
-			} else if ( question_type === "select_multiple") {
-				text_html += createSelectMultipleField(element_id, current_question, jsonChoices)
-			} 
+	while(current_index < jsonSurvey.length) {
+		var current_question = jsonSurvey[current_index];
 		
-	};
+		question_type = current_question["type"]
+		
+		if ( question_type === "text") {
+			text_html += createTextField(current_question)
+			current_index += 1;
+		} else if (question_type === "integer") {
+			text_html += createIntegerField(current_question)
+			current_index += 1;
+		} else if (question_type === "decimal") {
+			text_html += createDecimalField(current_question)
+			current_index += 1;
+		} else if (question_type === "date") {
+			text_html += createDateField(current_question)
+			current_index += 1;
+		} else if (question_type === "time") {
+			text_html += createTimeField(current_question)
+			current_index += 1;
+		} else if (question_type === "datetime") {
+			text_html += createDateTimeField(current_question)
+			current_index += 1;
+		} else if (question_type === "image") {
+			text_html += createImageField(current_question)
+			current_index += 1;
+		}else if (question_type === "note") {
+			text_html += createNoteField(current_question)
+			current_index += 1;
+		} else if ( question_type === "select_one") {
+			text_html += createSelectOneField(current_question, jsonChoices)
+			current_index += 1;
+		} else if ( question_type === "select_multiple") {
+			text_html += createSelectMultipleField(current_question, jsonChoices)
+			current_index += 1;
+		} else {
+			current_index += 1;
+		}
+		// else if ( question_type === "group" ) {
+		// 	text_html += createGroup(current_question)
+		// }
+	}
+
+
+	// THIS IS WHERE THE FORM HTML IS STORED
+	
+
+	// THE FOLLOWING LOOP GENERATES THE FORMS
+
+
 
 	var formPlaceHolder = document.getElementById("xlsform_survey");
 	formPlaceHolder.innerHTML += text_html;
+	return text_html;
 };
 
-function createTextField(element_id, survey_question) {
+function createTextField(survey_question) {
 	text_name = survey_question["name"]
 	text_label = survey_question["label"]
 	text_hint = survey_question["hint"]
@@ -57,24 +78,24 @@ function createTextField(element_id, survey_question) {
 
 	$()
 
-	text_html = "<br/><label>"+text_label+"<input id=\""+element_id+
-				"\" type=\"text\" "+" name=\""+text_name+"\" "+
-				hint_tooltip+text_required+"/></label><br/>"
+	text_html = "<br/><label>"+text_label+"<input type=\"text\" "
+				+" name=\""+text_name+"\" "+hint_tooltip+
+				text_required+"/></label><br/>"
 	return text_html;
 };
 
-function createIntegerField(element_id, survey_question) {
+function createIntegerField(survey_question) {
 	int_name = survey_question["name"]
 	int_label = survey_question["label"]
 
 
 
-	text_html = "<br/><label>"+int_label+" <input id=\""+element_id+"\" type=\"number\" "+
+	text_html = "<br/><label>"+int_label+" <input type=\"number\" "+
 				" name=\""+int_name+"\" /></label><br/>"
 	return text_html;
 };
 
-function createDecimalField(element_id, survey_question) {
+function createDecimalField(survey_question) {
 	decimal_name = survey_question["name"]
 	decimal_label = survey_question["label"]
 	decimal_hint = survey_question["hint"]
@@ -83,14 +104,14 @@ function createDecimalField(element_id, survey_question) {
 
 	hint_tooltip = "data-toggle=\"tooltip\" title=\""+decimal_hint+"\" "
 
-	text_html = "<br/><label>"+decimal_label+" <input id=\""+element_id+"\" type=\"number\" "+
+	text_html = "<br/><label>"+decimal_label+" <input type=\"number\" "+
 				"step=\"0.01\""+" name=\""+decimal_name+"\" "+hint_tooltip+
 				"constraint=\""+decimal_constraint+"\" contstraint_message=\""+
 				decimal_contstraint_message+"\" /></label><br/>"
 	return text_html;
 };
 
-function createCalculateField(element_id, survey_question) {
+function createCalculateField(survey_question) {
 	calculate_name = survey_question["name"]
 	calculate_calculation = survey_question["calculation"]
 	result = 0
@@ -102,35 +123,35 @@ function createCalculateField(element_id, survey_question) {
 	return text_html;
 };
 
-function createDateField(element_id, survey_question) {
+function createDateField(survey_question) {
 	date_name = survey_question["name"]
 	date_label = survey_question["label"]
 
-	text_html = "<br/><label>"+date_label+" <input id=\""+element_id+"\" type=\"date\" "+
+	text_html = "<br/><label>"+date_label+" <input type=\"date\" "+
 				" name=\""+date_name+"\" /></label><br/>"
 	return text_html;
 };
 
-function createTimeField(element_id, survey_question) {
+function createTimeField(survey_question) {
 	time_name = survey_question["name"]
 	time_label = survey_question["label"]
 
-	text_html = "<br/><label>"+time_label+" <input id=\""+element_id+"\" type=\"time\" "+
+	text_html = "<br/><label>"+time_label+" <input type=\"time\" "+
 				" name=\""+time_name+"\" /></label><br/>"
 	return text_html;
 };
 
-function createDateTimeField(element_id, survey_question) {
+function createDateTimeField(survey_question) {
 	date_time_name = survey_question["name"]
 	date_time_label = survey_question["label"]
 
-	text_html = "<br/><label>"+date_time_label+" <input id=\""+element_id+"\" type=\"datetime-local\" "+
+	text_html = "<br/><label>"+date_time_label+" <input type=\"datetime-local\" "+
 				" name=\""+date_time_name+"\" step=\"60\"/></label><br/>"
 	return text_html;
 };
 
 // NEEDS WORK & CAMERA FUNCTION ON PHONE
-function createImageField(element_id, survey_question) {
+function createImageField(survey_question) {
 	image_name = survey_question["name"]
 	image_label = survey_question["label"]
 
@@ -153,13 +174,13 @@ function createImageField(element_id, survey_question) {
 
 	// text_html = "<br/><input id=\"myFileInput\" type=\"file\" accept=\"image/*;capture=camera\"><br/>"
 
-	text_html = "<br/><label>"+image_label+"<input id=\""+element_id+"\" type=\"file\" accept=\"image/*\" "+
+	text_html = "<br/><label>"+image_label+"<input type=\"file\" accept=\"image/*\" "+
 				"capture=\"camera\"></label><br/>"
 
 	return text_html;
 };
 
-function createNoteField(element_id, survey_question) {
+function createNoteField(survey_question) {
 	note_name = survey_question["name"]
 	note_label = survey_question["label"]
 	note_hint = survey_question["hint"]
@@ -173,17 +194,12 @@ function createNoteField(element_id, survey_question) {
 
 	hint_tooltip = "data-toggle=\"tooltip\" title=\""+note_hint+"\" "
 
-
-
-	text_html = "<br/><label>"+note_label+"<div id=\""+
-				element_id+"\" name=\""+note_name+"\" "
-				+hint_tooltip+" ></div></label><br/>"
+	text_html = "<br/><label>"+note_label+"<div name=\""+note_name+"\" "+
+	hint_tooltip+" ></div></label><br/>"
 	return text_html;
 };
 
-function createSelectOneField(element_id, survey_question, choices) {
-	list_name = survey_question["type"].split(" ")[1].trim()
-
+function createSelectOneField(survey_question, choices) {
 	select_one_name = survey_question["name"]
 	select_one_label = survey_question["label"]
 	select_one_hint = survey_question["hint"]
@@ -196,13 +212,13 @@ function createSelectOneField(element_id, survey_question, choices) {
 	};
 
 	choices_html = ""
-	all_choices = choices[list_name]
+	all_choices = choices[survey_question["list_name"]]
 
 	for (var i = 0; i < all_choices.length; i++) {
-		name = choices[list_name][i]["name"]
-		label = choices[list_name][i]["label"]
-		image = choices[list_name][i]["image"]
-		label_chinese = choices[list_name][i]["label::chinese"]
+		name = all_choices[i]["name"]
+		label = all_choices[i]["label"]
+		image = all_choices[i]["image"]
+		label_chinese = all_choices[i]["label::chinese"]
 
 		name_radio = "name=\""+select_one_name+"\" ";
 		value_radio = "value=\""+name+"\" ";
@@ -223,15 +239,14 @@ function createSelectOneField(element_id, survey_question, choices) {
 			label_chinese_radio = "";
 		}
 
-		choice_id = element_id+((i+1)*0.1)
+	
 
-		choices_html += "<br/><label><input id=\""+choice_id+
-						"\" type=\"radio\" "+name_radio+value_radio+
+		choices_html += "<br/><label><input type=\"radio\" "+name_radio+value_radio+
 						"/>"+label_radio+"</label>"
 	};
 
 	full_html = "<br/><label>"+select_one_label+"<div id=\""
-				+element_id+"\" name=\""+select_one_name+
+				+"\" name=\""+select_one_name+
 				"\" "+hint_tooltip+" "+"appearance=\""
 				+select_one_appearance+"\" >"+choices_html+
 				"</div></label><br/>"
@@ -239,9 +254,7 @@ function createSelectOneField(element_id, survey_question, choices) {
 	return full_html;
 };
 
-function createSelectMultipleField(element_id, survey_question, choices) {
-	list_name = survey_question["type"].split(" ")[1].trim()
-
+function createSelectMultipleField(survey_question, choices) {
 	select_multiple_name = survey_question["name"]
 	select_multiple_label = survey_question["label"]
 	select_multiple_hint = survey_question["hint"]
@@ -254,13 +267,13 @@ function createSelectMultipleField(element_id, survey_question, choices) {
 	};
 
 	choices_html = ""
-	all_choices = choices[list_name]
+	all_choices = choices[survey_question["list_name"]]
 
 	for (var i = 0; i < all_choices.length; i++) {
-		name = choices[list_name][i]["name"]
-		label = choices[list_name][i]["label"]
-		image = choices[list_name][i]["image"]
-		label_chinese = choices[list_name][i]["label::chinese"]
+		name = all_choices[i]["name"]
+		label = all_choices[i]["label"]
+		image = all_choices[i]["image"]
+		label_chinese = all_choices[i]["label::chinese"]
 
 		name_html = "name=\""+name+"\" ";
 		label_html = label;
@@ -280,15 +293,19 @@ function createSelectMultipleField(element_id, survey_question, choices) {
 			label_chinese_html = "";
 		}
 
-		choices_html += "<br/><label><input id=\""+choice_id+"\" type=\"checkbox\" "+name_html+
+		choices_html += "<br/><label><input type=\"radio\" "+name_html+
 						image_html+label_chinese_html+" />"+label_html+"</label>"
 	};
 
 	full_html = "<br/><label>"+select_multiple_label+
-				"<div id=\""+element_id+"\" name=\""+
+				"<div "+"\" name=\""+
 				select_multiple_name+"\" "+hint_tooltip+
 				"appearance=\""+select_multiple_appearance+
 				"\" >"+choices_html+"</div></label><br/>"
 
 	return full_html;
 };
+
+// function createGroup(survey_question) {
+
+// };

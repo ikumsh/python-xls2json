@@ -56,8 +56,14 @@ def make_json_rows(result, survey, survey_attributes, current_index):
 	while current_index < survey.nrows:
 		xls_row = unicode_to_utf8(survey.row_values(current_index))
 		json_row = make_survey_row(survey_attributes, xls_row)
+
+		row_type = json_row["type"].split(" ")[0]
+
+		if row_type == "select_one" or row_type == "select_multiple":
+			json_row["list_name"] = json_row["type"].split(" ")[1]
+			json_row["type"] = row_type
 		
-		if ( 'begin ' == json_row['type'][:6]):
+		if (row_type == 'begin'):
 			group_type = json_row['type'].split(' ')[1]
 
 			repeat_group = {}
@@ -69,7 +75,7 @@ def make_json_rows(result, survey, survey_attributes, current_index):
 			repeat_group['fields'] = fields
 
 			result.append(repeat_group)
-		elif ( 'end ' == json_row['type'][:4]):
+		elif (row_type == 'end'):
 			return current_index + 1
 		else:
 			result.append(json_row)
@@ -78,10 +84,10 @@ def make_json_rows(result, survey, survey_attributes, current_index):
 
 def make_survey_row(attributes, xls_row):
 	row = {}
-	for form_attr in range(len(attributes)):
-		attr = attributes[form_attr]
-		if not (xls_row[form_attr] == ''):
-			row[attr] = xls_row[form_attr]
+	for attr_index in range(len(attributes)):
+		attr = attributes[attr_index]
+		if not (xls_row[attr_index] == ''):
+			row[attr] = xls_row[attr_index]
 	return row
 
 #################
